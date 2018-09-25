@@ -1,3 +1,3 @@
 import FrequencyCheck
 
-FrequencyCheck.countCheck("NQubits")
+FrequencyCheck.countCheck("Samples/4Q")
