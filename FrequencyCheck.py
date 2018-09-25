@@ -25,7 +25,7 @@ def countCheck(folder):
     sampleFile = open("{0}/Samples.txt".format(folder),"r")
     lines = sampleFile.readlines()
     for line in lines:
-        samples.append(line.strip("\n"))
+        samples.append(line.replace(" ","").strip("\n"))
     sampleFile.close()
 
     # Store all possible qubit configurations in a list
