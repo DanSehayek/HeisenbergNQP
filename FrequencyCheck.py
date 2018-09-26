@@ -63,4 +63,4 @@ def countCheck(folder):
     plt.xlabel("Various States")
     plt.ylabel("Counts")
     plt.title("Sampling from 1D Heisenberg Model for N = {0}".format(numOfQubits))
-    plt.show()
+    plt.savefig("Histograms/Histogram{0}Q".format(numOfQubits),dpi = 200)
