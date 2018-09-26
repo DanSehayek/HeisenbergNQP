@@ -42,6 +42,7 @@ def countCheck(folder):
 
     # Print actual and expected number of occurrences of each configuration
     loopCounter = 0
+    expectedSamples = []
     for combo in allCombos:
         config = "".join(list(combo))
         expectedCount = int(len(samples) * amplitudes[loopCounter] ** 2)
@@ -49,3 +50,14 @@ def countCheck(folder):
         print("Number of expected occurrences of {0}: {1}".format(config,expectedCount))
         print("-------------------------------------------")
         loopCounter += 1
+        for i in range(expectedCount):
+            expectedSamples.append(config)
+
+    plt.hist(samples,label = "Actual")
+    plt.hist(expectedSamples,facecolor = "None",label = "Expected",edgecolor = "black",linewidth = 1.5)
+    plt.legend(loc = "best")
+    plt.xticks([])
+    plt.xlabel("Various States")
+    plt.ylabel("Counts")
+    plt.title("Sampling from 1D Heisenberg Model for N = {0}".format(numOfQubits))
+    plt.show()
