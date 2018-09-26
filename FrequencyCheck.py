@@ -42,7 +42,9 @@ def countCheck(folder):
 
     # Print actual and expected number of occurrences of each configuration
     loopCounter = 0
-    expectedSamples = []
+    configs = []
+    expectedFreq = []
+    actualFreq = []
     for combo in allCombos:
         config = "".join(list(combo))
         expectedCount = int(len(samples) * amplitudes[loopCounter] ** 2)
@@ -50,11 +52,12 @@ def countCheck(folder):
         print("Number of expected occurrences of {0}: {1}".format(config,expectedCount))
         print("-------------------------------------------")
         loopCounter += 1
-        for i in range(expectedCount):
-            expectedSamples.append(config)
+        configs.append(config)
+        actualFreq.append(counter[config])
+        expectedFreq.append(expectedCount)
 
-    plt.hist(samples,label = "Actual")
-    plt.hist(expectedSamples,facecolor = "None",label = "Expected",edgecolor = "black",linewidth = 1.5)
+    plt.bar(configs,actualFreq,label = "Actual")
+    plt.bar(configs,expectedFreq,facecolor = "None",label = "Expected",edgecolor = "black",linewidth = 1.5)
     plt.legend(loc = "best")
     plt.xticks([])
     plt.xlabel("Various States")
