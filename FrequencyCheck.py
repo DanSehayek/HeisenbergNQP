@@ -17,7 +17,7 @@ def countCheck(folder):
     amplitudeFile = open("{0}/Amplitudes.txt".format(folder),"r")
     lines = amplitudeFile.readlines()
     for line in lines:
-        amplitudes.append(float(line.strip("\n")))
+        amplitudes.append(float(line.split(" ")[0]))
     amplitudeFile.close()
 
     # Read and store samples from sample file
