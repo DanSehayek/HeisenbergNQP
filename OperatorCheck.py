@@ -8,10 +8,14 @@ def convert(qubit):
     PARAMS: qubit (int) - Value of qubit
     RETURNS: int
     '''
+    Sz = 0.5 * np.array([[1,0],[0,-1]])
+
     if qubit == 0:
-        return 0.5
+        state = np.array([1,0])
     else:
-        return -0.5
+        state = np.array([0,1])
+
+    return np.dot(state,Sz.dot(state))
 
 def operatorCheck(folder,expectedValue,listofMs,numQubits):
     '''
