@@ -40,12 +40,12 @@ def operatorCheck(folder,expectedValue,listofMs,numQubits):
         total += convert(int(samples[i][1])) * convert(int(samples[i][2]))
         if i in listofMs:
             print(total/(i+1))
-            values.append(abs(expectedValue - total/(i+1)))
+            values.append(abs(expectedValue - total/(i+1))/abs(expectedValue))
 
     fig, ax = plt.subplots()
     plt.plot(listofMs,values,"o")
     plt.xlabel("Number of Samples")
-    plt.ylabel("Absolute Value Error")
+    plt.ylabel("Relative Error")
     plt.title(r"Comparison of $\left \langle \psi \left | S_{2}S_{3} \right" +
               r" |\psi \right \rangle$ with Avg Value from Samples for " +
               "N = {0}".format(numQubits))
