@@ -11,3 +11,7 @@ def RUN(check,numQubits):
             operatorCheck("Samples/4Q",-0.0833333,range(100,10000,100),4)
         elif numQubits == 5:
             operatorCheck("Samples/5Q",-0.127916,range(100,10000,100),5)
+        elif numQubits == 10:
+            operatorCheck("Samples/10Q",-0.0961352,range(100,10000,100),10)
+
+RUN("Operator",10)
