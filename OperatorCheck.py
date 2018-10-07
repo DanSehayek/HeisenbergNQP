@@ -56,5 +56,3 @@ def operatorCheck(folder,expectedValue,listofMs,numQubits):
              verticalalignment = "top",bbox = props)
     plt.tight_layout()
     plt.savefig("OperatorChecks/{0}Q".format(numQubits),dpi = 200)
-
-operatorCheck("Samples/4Q",-0.0833333,range(1000,10000,1000),4)
