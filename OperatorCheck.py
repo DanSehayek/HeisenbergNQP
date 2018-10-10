@@ -70,7 +70,7 @@ def convert(operator,sample,amplitudes):
 
     return total
 
-def operatorCheck(operator,folder,expectedValue,listofMs,numQubits):
+def operatorCheck(operator,listofMs,numQubits,textBox = False):
     '''
     Compares average value of observable from samples with expected value
     from tensor contractions. Creates a plot of error versus number of samples.
@@ -80,12 +80,6 @@ def operatorCheck(operator,folder,expectedValue,listofMs,numQubits):
     :param operator: The observable to be measured.
                      One of "S2S3" and "H".
     :type operator: str
-    :param folder: Name of folder containing samples file.
-                   Sample file must be named "Samples.txt".
-    :type folder: str
-    :param expectedValue: Expected value of observable calculated
-                          from ITensor.
-    :type expectedValue: float
     :param listofMs: List of number of samples to try.
     :type listofMs: listof int
     :param numQubits: Number of qubits comprising the quantum system.
@@ -96,7 +90,7 @@ def operatorCheck(operator,folder,expectedValue,listofMs,numQubits):
 
     # Read and store samples from sample file
     samples = []
-    sampleFile = open("{0}/Samples.txt".format(folder),"r")
+    sampleFile = open("Samples/{0}Q/Samples.txt".format(numQubits))
     lines = sampleFile.readlines()
     for line in lines:
         samples.append(line.replace(" ","").strip("\n"))
@@ -104,11 +98,25 @@ def operatorCheck(operator,folder,expectedValue,listofMs,numQubits):
 
     # Read and store amplitudes from amplitudes file
     amplitudes = []
-    amplitudeFile = open("{0}/Amplitudes2.txt".format(folder),"r")
+    amplitudeFile = open("Samples/{0}Q/Amplitudes.txt".format(numQubits))
     lines = amplitudeFile.readlines()
     for line in lines:
         amplitudes.append(float(line.split(" ")[0]))
     amplitudeFile.close()
+
+    # Read and store amplitudes from amplitudes file
+    observablesFile = open("Samples/{0}Q/Observables.txt".format(numQubits))
+    lines = observablesFile.readlines()
+    S2S3 = lines[0].strip("\n").split(" ")[1]
+    H = lines[1].strip("\n").split(" ")[1]
+    observablesFile.close()
+
+    if operator == "S2S3":
+        expectedValue = float(S2S3)
+        opStr = r"S_{2}S_{3}"
+    elif operator == "H":
+        expectedValue = float(H)
+        opStr = "H"
 
     total = 0
     values = []
@@ -127,13 +135,17 @@ def operatorCheck(operator,folder,expectedValue,listofMs,numQubits):
     plt.plot(listofMs,values,"o")
     plt.xlabel("Number of Samples")
     plt.ylabel("Relative Error")
-    plt.title(r"Accuracy Plot of $\left \langle \psi \left | H \right" +
+    plt.title(r"Accuracy Plot of $\left \langle \psi \left" +
+              r" | {0} \right".format(opStr) +
               r" |\psi \right \rangle$ for " +
               "N = {0}".format(numQubits))
     props = dict(boxstyle='round', facecolor='wheat', alpha=0.5)
-    plt.text(0.55, 0.95, r"$\left \langle \psi \left | S_{2}S_{3} \right" +
-             r" |\psi \right \rangle$ = " + str(round(expectedValue,4)),
-             transform = ax.transAxes,fontsize = 14,
-             verticalalignment = "top",bbox = props)
+    if textBox:
+        plt.text(0.65, 0.12, r"$\left \langle \psi \left" +
+                 r" | {0} \right".format(opStr) +
+                 r" |\psi \right \rangle$ = " + str(round(expectedValue,4)),
+                 transform = ax.transAxes,fontsize = 14,
+                 verticalalignment = "top",bbox = props)
+    plt.ticklabel_format(style = "sci", axis = "y", scilimits = (0,0))
     plt.tight_layout()
-    plt.savefig("OperatorChecks/{0}Q".format(numQubits),dpi = 200)
+    plt.savefig("OperatorChecks/{0}/{1}Q".format(operator,numQubits),dpi = 200)
