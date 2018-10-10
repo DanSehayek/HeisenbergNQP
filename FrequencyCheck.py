@@ -2,19 +2,20 @@ import numpy as np
 import matplotlib.pyplot as plt
 import itertools
 
-def countCheck(folder):
+def countCheck(numQubits):
     '''
     Compares expected and actual frequencies of each qubit configuration
-    based on amplitude and sample files obtained from itensor script.
+    based on amplitude and sample files obtained from iTensor script.
 
-    PARAMS: folder (str) - Name of folder containing Amplitudes.txt
-                           and Samples.txt files
-    RETURNS: None
+    :param numQubits: Number of qubits comprising the quantum system.
+    :type numQubits: int
+
+    :returns: None
     '''
 
     # Read and store amplitudes from amplitudes file
     amplitudes = []
-    amplitudeFile = open("{0}/Amplitudes.txt".format(folder),"r")
+    amplitudeFile = open("Samples/{0}Q/Amplitudes.txt".format(numQubits))
     lines = amplitudeFile.readlines()
     for line in lines:
         amplitudes.append(float(line.split(" ")[0]))
@@ -22,7 +23,7 @@ def countCheck(folder):
 
     # Read and store samples from sample file
     samples = []
-    sampleFile = open("{0}/Samples.txt".format(folder),"r")
+    sampleFile = open("Samples/{0}Q/Samples.txt".format(numQubits))
     lines = sampleFile.readlines()
     for line in lines:
         samples.append(line.replace(" ","").strip("\n"))
