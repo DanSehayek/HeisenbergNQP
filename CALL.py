@@ -22,4 +22,4 @@ def RUN(check,numQubits,listofMs = None):
     elif check == "H":
         operatorCheck("H",listofMs,numQubits)
 
-RUN("Frequency",5)
+RUN("H",20,range(100,50000,100))
